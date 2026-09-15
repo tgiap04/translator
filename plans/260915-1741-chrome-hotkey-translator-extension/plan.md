@@ -33,8 +33,8 @@ Stack: TypeScript vanilla + esbuild (bước bundle tối thiểu). Không frame
 | 1 | [Spike Translator API in isolated world](./phase-01-spike-translator-api-in-isolated-world.md) | ✅ Done — Route A |
 | 2 | [Scaffold MV3 skeleton](./phase-02-scaffold-mv3-skeleton.md) | ✅ Done (3 mục chờ kiểm tay) |
 | 3 | [Config storage and options page](./phase-03-config-storage-and-options-page.md) | Pending |
-| 4 | [Service worker router and commands](./phase-04-service-worker-router-and-commands.md) | Pending |
-| 5 | [Content script input layer](./phase-05-content-script-input-layer.md) | Pending |
+| 4 | [Service worker router and commands](./phase-04-service-worker-router-and-commands.md) | ✅ Done |
+| 5 | [Content script input layer](./phase-05-content-script-input-layer.md) | ✅ Done |
 | 6 | [Tooltip Shadow DOM](./phase-06-tooltip-shadow-dom.md) | Pending |
 | 7 | [Translation engine wiring](./phase-07-translation-engine-wiring.md) | Pending |
 | 8 | [Integration and test matrix](./phase-08-integration-and-test-matrix.md) | Pending |

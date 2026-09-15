@@ -1,7 +1,7 @@
 ---
 phase: 5
 title: "Content script input layer"
-status: pending
+status: completed
 effort: 3h
 ---
 

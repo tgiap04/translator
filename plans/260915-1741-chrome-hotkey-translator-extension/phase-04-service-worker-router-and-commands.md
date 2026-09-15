@@ -1,7 +1,7 @@
 ---
 phase: 4
 title: "Service worker router and commands"
-status: pending
+status: completed
 effort: 2h
 ---
 
