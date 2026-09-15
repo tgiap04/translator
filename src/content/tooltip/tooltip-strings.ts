@@ -25,11 +25,3 @@ export const STRINGS = {
  * truyen danh sach cap ngon ngu da cau hinh; khi noi voi phase 03/04 (config
  * that), day la noi duy nhat can thay danh sach nay.
  */
-export const FAKE_TARGET_LANGS: ReadonlyArray<{ code: string; label: string }> = [
-  { code: 'vi', label: 'Tiếng Việt' },
-  { code: 'en', label: 'English' },
-  { code: 'ja', label: '日本語' },
-  { code: 'ko', label: '한국어' },
-  { code: 'zh', label: '中文' },
-  { code: 'fr', label: 'Français' },
-];

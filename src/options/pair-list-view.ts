@@ -1,7 +1,7 @@
 // Render danh sach cap ngon ngu tu <template id="pair-row-template">.
 import type { AppConfig, LangPair } from '../shared/config-schema.js';
 import { format } from '../shared/hotkey-codec.js';
-import { languageName } from './language-catalog.js';
+import { languageName } from '../shared/language-catalog.js';
 import {
   checkAvailability,
   downloadErrorMessage,

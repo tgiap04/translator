@@ -20,6 +20,8 @@ export type HandlerDeps = {
 export function createRequestHandler(deps: HandlerDeps) {
   // Request moi huy request cu — tranh ket qua cu ve sau de len ket qua moi.
   let inflight: AbortController | null = null;
+  // Nut doi chieu hien tai cho cu -> giu lai rect de khong phai doc lai Selection.
+  let lastRect: DOMRect | null = null;
 
   async function handle({ source, target, origin }: HandleArgs): Promise<void> {
     const sel = readSelection();
@@ -51,6 +53,7 @@ export function createRequestHandler(deps: HandlerDeps) {
 
   async function run(text: string, rect: DOMRect, source: string, target: string): Promise<void> {
     inflight?.abort();
+    lastRect = rect;
     const ctrl = new AbortController();
     inflight = ctrl;
 
@@ -77,10 +80,14 @@ export function createRequestHandler(deps: HandlerDeps) {
     }
   }
 
-  /** Nut doi chieu / doi ngon ngu dich: dung sourceText da giu, KHONG doc lai Selection. */
-  function retry(source: string, target: string, sourceText: string, rect: DOMRect): void {
+  /**
+   * Nut doi chieu / doi ngon ngu dich: dung sourceText va rect da giu.
+   * KHONG doc lai Selection — user bam nut la selection co the da mat.
+   */
+  function retryLast(source: string, target: string, sourceText: string): void {
+    const rect = lastRect ?? new DOMRect(window.innerWidth / 2, window.innerHeight / 3, 0, 0);
     void run(sourceText, rect, source, target);
   }
 
-  return { handle, retry, strings: STRINGS };
+  return { handle, retryLast, strings: STRINGS };
 }

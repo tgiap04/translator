@@ -3,18 +3,41 @@
 //   reports/spike-01-translator-context-decision.md
 import { getConfig, onConfigChanged } from '../shared/config-store.js';
 import { DEFAULT_CONFIG, type AppConfig } from '../shared/config-schema.js';
+import { languageName } from '../shared/language-catalog.js';
 import { isTrustedSender, isTranslateSelection, type FrameAck } from '../shared/messages.js';
 import { installHotkeyListener } from './hotkey-listener.js';
 import { createRequestHandler } from './request-handler.js';
-import { createNoopTooltip, createNoopProvider } from './noop-adapters.js';
+import { createTooltipController } from './tooltip/tooltip-controller.js';
+import { createTranslateProvider } from '../engine/translate-provider.js';
 
 // Content script song theo vong doi trang -> giu state trong bien module la duoc
 // (khac service worker, von bi terminate bat cu luc nao).
 let cfg: AppConfig = structuredClone(DEFAULT_CONFIG);
 
-const tooltip = createNoopTooltip();
-// PHASE 07 DOI DUNG DONG NAY: createNoopProvider() -> createTranslateProvider()
-const provider = createNoopProvider();
+/**
+ * Ngon ngu dich cho dropdown PHAI den tu cau hinh cua nguoi dung:
+ * doi sang mot cap ho chua tai pack la dan ho vao loi.
+ */
+function targetLangs(): ReadonlyArray<{ code: string; label: string }> {
+  const seen = new Map<string, string>();
+  for (const p of cfg.pairs) if (!seen.has(p.t)) seen.set(p.t, languageName(p.t));
+  return [...seen].map(([code, label]) => ({ code, label }));
+}
+
+const tooltip = createTooltipController(
+  {
+    onRetryWithPair: (source, target, sourceText) => {
+      handler.retryLast(source, target, sourceText);
+    },
+    onOpenOptions: () => {
+      // Content script khong tu mo tab duoc — phai nho service worker.
+      void chrome.runtime.sendMessage({ type: 'OPEN_OPTIONS' });
+    },
+  },
+  targetLangs,
+);
+
+const provider = createTranslateProvider();
 
 const handler = createRequestHandler({
   tooltip,

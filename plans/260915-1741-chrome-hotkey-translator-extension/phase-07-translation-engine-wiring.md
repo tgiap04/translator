@@ -1,7 +1,7 @@
 ---
 phase: 7
 title: "Translation engine wiring"
-status: pending
+status: completed
 effort: 3h
 ---
 

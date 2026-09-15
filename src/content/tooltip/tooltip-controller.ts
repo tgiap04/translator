@@ -6,7 +6,7 @@ import { place } from './tooltip-position.js';
 import { createTooltipView, measureSize, setPosition } from './tooltip-view.js';
 import type { TooltipElements } from './tooltip-view.js';
 import { renderState } from './tooltip-render.js';
-import { FAKE_TARGET_LANGS, STRINGS } from './tooltip-strings.js';
+import { STRINGS } from './tooltip-strings.js';
 
 const MARGIN = 8;
 const SELECTIONCHANGE_DEBOUNCE_MS = 100;
@@ -19,7 +19,16 @@ interface Meta {
   sourceText: string;
 }
 
-export function createTooltipController(callbacks: TooltipCallbacks): TooltipController {
+export type TargetLang = { code: string; label: string };
+
+/**
+ * getTargetLangs duoc tiem tu ngoai: danh sach ngon ngu dich phai den TU CAU HINH
+ * cua nguoi dung, khong phai danh sach cung. Doi sang cap chua tai pack la vo nghia.
+ */
+export function createTooltipController(
+  callbacks: TooltipCallbacks,
+  getTargetLangs: () => readonly TargetLang[],
+): TooltipController {
   let els: TooltipElements | null = null;
   let meta: Meta | null = null;
   let currentState: TooltipState = { kind: 'NO_SELECTION' };
@@ -95,7 +104,7 @@ export function createTooltipController(callbacks: TooltipCallbacks): TooltipCon
 
   function renderCurrent(): void {
     if (!els || !meta) return;
-    renderState(els, currentState, meta, FAKE_TARGET_LANGS);
+    renderState(els, currentState, meta, getTargetLangs());
     reposition();
   }
 

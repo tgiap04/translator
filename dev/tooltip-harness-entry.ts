@@ -24,7 +24,13 @@ const callbacks: TooltipCallbacks = {
   },
 };
 
-const controller = createTooltipController(callbacks);
+// Harness dung danh sach co dinh — ban that lay tu cau hinh nguoi dung.
+const HARNESS_LANGS = [
+  { code: 'vi', label: 'Tieng Viet' },
+  { code: 'en', label: 'English' },
+  { code: 'ja', label: 'Nihongo' },
+];
+const controller = createTooltipController(callbacks, () => HARNESS_LANGS);
 
 const SAMPLE_SOURCE =
   'Đây là đoạn văn bản gốc mẫu dùng để demo tooltip dịch trực tiếp trên trang, ' +
