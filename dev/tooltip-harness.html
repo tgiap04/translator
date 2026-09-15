@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<title>Tooltip harness — dữ liệu giả</title>
+<style>
+  /* co y dinh dat CSS "doc hai" o day de kiem tra Shadow DOM + :host{all:initial}
+     co that su cach ly duoc tooltip khoi trang chu hay khong. */
+  body {
+    font-size: 8px;
+    font-family: Georgia, serif;
+    color: #333;
+    margin: 0;
+    padding: 24px;
+  }
+  * {
+    box-sizing: content-box;
+  }
+  h1 { font-size: 20px; }
+  .panel {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    width: 260px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 13px;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  }
+  .panel h2 { font-size: 13px; margin: 0 0 8px; }
+  .panel label { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 4px; font-size: 12px; }
+  .panel input { width: 70px; }
+  .panel button { display: block; width: 100%; margin: 4px 0; padding: 6px; font-size: 12px; cursor: pointer; }
+  #log {
+    white-space: pre-wrap;
+    font-family: ui-monospace, monospace;
+    font-size: 10px;
+    max-height: 140px;
+    overflow: auto;
+    background: #f4f4f4;
+    padding: 6px;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+  .tall-spacer { height: 1400px; background: linear-gradient(180deg, #eef2ff, #fff 40%, #fff 60%, #fef2f2); }
+  .selection-target { padding: 8px; background: #fffbcc; display: inline-block; margin: 8px 0; }
+  .escape-box {
+    width: 300px;
+    height: 80px;
+    overflow: hidden;
+    transform: translateZ(0);
+    border: 2px dashed red;
+    padding: 8px;
+    margin: 16px 0;
+  }
+</style>
+</head>
+<body>
+  <div class="panel">
+    <h2>Tooltip harness (dữ liệu giả)</h2>
+    <label>rect.top <input id="rect-top" type="number" value="300" /></label>
+    <label>rect.left <input id="rect-left" type="number" value="200" /></label>
+    <label>rect.width <input id="rect-width" type="number" value="120" /></label>
+    <label>rect.height <input id="rect-height" type="number" value="20" /></label>
+
+    <button type="button" data-state="PENDING">show PENDING</button>
+    <button type="button" data-state="OK">show OK</button>
+    <button type="button" data-state="ERROR">show ERROR</button>
+    <button type="button" data-state="TOO_LONG">show TOO_LONG</button>
+    <button type="button" data-state="NO_SELECTION">show NO_SELECTION (tự tắt 2s)</button>
+    <button type="button" id="reposition-btn">show OK tại rect hiện tại</button>
+    <button type="button" id="hide-btn">hide()</button>
+
+    <div id="log"></div>
+  </div>
+
+  <h1>Trang demo — kiểm CSS cô lập + scroll + top layer</h1>
+  <p>
+    Trang này cố tình đặt <code>body {'{'} font-size: 8px {'}'}</code> và
+    <code>* {'{'} box-sizing: content-box {'}'}</code> để kiểm
+    <code>:host {'{'} all: initial {'}'}</code> có thật sự chặn kế thừa hay không.
+  </p>
+  <p>Cuộn trang xuống rồi bấm lại "show OK tại rect hiện tại" để kiểm tooltip có bám theo vị trí trang không.</p>
+
+  <div class="selection-target">Đoạn văn mẫu để bôi đen thử (không bắt buộc — harness dùng nút bấm).</div>
+
+  <div class="escape-box">
+    Hộp này có <code>overflow:hidden</code> + <code>transform:translateZ(0)</code>.
+    Chỉnh rect.top/left để nằm trong hộp rồi bấm show — tooltip (popover, top layer)
+    không được bị cắt bởi hộp này.
+  </div>
+
+  <div class="tall-spacer"></div>
+
+  <p>Cuối trang — dùng để kiểm bôi đen gần đáy viewport (lật lên trên).</p>
+
+  <script src="./tooltip-harness.bundle.js"></script>
+</body>
+</html>

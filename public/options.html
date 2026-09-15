@@ -7,11 +7,51 @@
   <link rel="stylesheet" href="options.css">
 </head>
 <body>
+  <p id="unsupported-banner" class="banner banner-error" hidden></p>
+
   <main id="app">
-    <h1>Hotkey Translator</h1>
-    <p id="boot">Đang tải…</p>
+    <header>
+      <h1 id="page-title"></h1>
+    </header>
+
+    <p id="boot" class="status-line"></p>
+
+    <section id="pairs" aria-labelledby="pairs-heading">
+      <h2 id="pairs-heading"></h2>
+      <ul id="pair-list"></ul>
+      <div id="pair-editor"></div>
+      <button type="button" id="add-pair-btn"></button>
+    </section>
+
+    <section id="commands" aria-labelledby="commands-heading">
+      <h2 id="commands-heading"></h2>
+      <p id="commands-intro"></p>
+      <table id="commands-table">
+        <thead>
+          <tr>
+            <th id="commands-col-name"></th>
+            <th id="commands-col-shortcut"></th>
+          </tr>
+        </thead>
+        <tbody id="commands-tbody"></tbody>
+      </table>
+    </section>
   </main>
-  <!-- MV3 CSP cấm inline script — phải nạp qua src -->
+
+  <template id="pair-row-template">
+    <li class="pair-row">
+      <span class="pair-label"></span>
+      <span class="pair-hotkey"></span>
+      <span class="pair-badge"></span>
+      <progress class="pair-progress" max="100" value="0" hidden></progress>
+      <button type="button" class="btn-download"></button>
+      <button type="button" class="btn-cancel-download" hidden></button>
+      <button type="button" class="btn-edit"></button>
+      <button type="button" class="btn-delete"></button>
+    </li>
+  </template>
+
+  <!-- MV3 CSP cam inline script - phai nap qua src -->
   <script src="options-entry.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 ---
 phase: 3
 title: "Config storage and options page"
-status: pending
+status: completed
 effort: 4h
 ---
 

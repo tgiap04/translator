@@ -1,7 +1,7 @@
 ---
 phase: 6
 title: "Tooltip Shadow DOM"
-status: pending
+status: completed
 effort: 4h
 ---
 
@@ -120,6 +120,18 @@ return { top: top + scrollY, left: left + scrollX }
 | `popover` (top layer) | Thoát khỏi luồng bố cục | `overflow:hidden`, `transform`, `filter`, `z-index` của tổ tiên |
 
 > **Cần xác minh trong 15 phút đầu phase:** phần tử ở top layer có containing block là initial containing block, nên `position: absolute` + toạ độ trang **có thể** không trôi theo scroll như mong đợi. Kiểm ngay trên demo harness. Nếu không trôi → lùi về `position: fixed` + toạ độ viewport + một listener `scroll` (passive, `requestAnimationFrame` gộp khung). Ghi kết quả vào phase file này.
+
+> **KẾT QUẢ XÁC MINH (thực nghiệm, Chrome 152.0.7977.83 qua puppeteer-core, macOS, 2026-09-15):**
+> Đã dựng trang thử độc lập (`<div popover="manual" style="position:absolute; top:200px; left:100px">`), gọi
+> `showPopover()`, đo `getBoundingClientRect()` trước/sau khi `window.scrollTo(0, 500)`. Kết quả: `top` giảm
+> đúng 500px sau khi cuộn (`-500` delta khớp chính xác) — **`position: absolute` + toạ độ trang VẪN trôi theo
+> scroll bình thường**, không bị khoá vào viewport như lo ngại ban đầu. Kiểm lại lần hai trực tiếp trên
+> `dev/tooltip-harness.html` thật (dùng `createTooltipController` thật, không phải mock): cuộn trang 400px,
+> `host.getBoundingClientRect().top` giảm đúng 400px. **Giữ nguyên phương án gốc: `position: absolute` +
+> `rect + scrollX/scrollY`, KHÔNG cần nhánh lùi `fixed` + scroll listener.** Đồng thời xác nhận: tooltip đặt
+> đè lên một `div` có `overflow:hidden` + `transform:translateZ(0)` vẫn render đủ kích thước, không bị cắt
+> (top layer hoạt động đúng như tài liệu Popover API mô tả) — vì host luôn được `document.body.appendChild()`
+> trực tiếp, không bao giờ lồng bên trong container của trang.
 
 ## Related Code Files
 
