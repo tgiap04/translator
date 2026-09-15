@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "Hotkey Translator",
+  "version": "0.1.0",
+  "description": "Bôi đen text, bấm phím tắt, hiện bản dịch ngay tại chỗ. Dịch on-device, không gửi dữ liệu ra ngoài.",
+  "minimum_chrome_version": "138",
+  "permissions": ["storage", "activeTab"],
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": true,
+      "run_at": "document_idle",
+      "js": ["content-entry.js"]
+    }
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "action": {
+    "default_title": "Hotkey Translator",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "commands": {
+    "translate-vi-en": {
+      "suggested_key": { "default": "Alt+Shift+1" },
+      "description": "Dịch Việt → Anh"
+    },
+    "translate-en-vi": {
+      "suggested_key": { "default": "Alt+Shift+2" },
+      "description": "Dịch Anh → Việt"
+    },
+    "open-options": {
+      "suggested_key": { "default": "Alt+Shift+0" },
+      "description": "Mở cài đặt"
+    }
+  }
+}

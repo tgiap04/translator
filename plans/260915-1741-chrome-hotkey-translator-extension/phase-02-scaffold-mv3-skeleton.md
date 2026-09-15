@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: "Scaffold MV3 skeleton"
-status: pending
+status: completed
 effort: 2h
 ---
 

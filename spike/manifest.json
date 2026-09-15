@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Spike Translator Probe",
+  "version": "0.0.1",
+  "description": "Throwaway probe: does Translator exist in a content script isolated world?",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": true,
+      "js": ["probe-translator.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": true,
+      "js": ["probe-main-world.js"],
+      "run_at": "document_idle",
+      "world": "MAIN"
+    }
+  ]
+}

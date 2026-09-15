@@ -1,7 +1,7 @@
 ---
 phase: 1
 title: "Spike Translator API in isolated world"
-status: pending
+status: completed
 effort: 1h
 ---
 
