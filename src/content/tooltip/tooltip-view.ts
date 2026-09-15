@@ -3,8 +3,8 @@
 // (nguon: trang web bat ky, hoac engine dich) chi duoc gan bang textContent —
 // mot lan innerHTML o day la mot lo XSS trong chinh extension.
 
-import { TOOLTIP_STYLES } from './tooltip-styles.js';
-import { STRINGS } from './tooltip-strings.js';
+import { TOOLTIP_STYLES } from './tooltip-styles.ts';
+import { STRINGS } from './tooltip-strings.ts';
 
 export interface TooltipElements {
   readonly host: HTMLElement;

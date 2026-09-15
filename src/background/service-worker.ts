@@ -6,12 +6,12 @@
 //
 // Vong doi MV3: worker bi terminate bat cu luc nao. KHONG giu state trong bien
 // toan cuc — doc lai config moi lan can. Listener phai dang ky DONG BO o top-level.
-import { getConfig, setConfig } from '../shared/config-store.js';
-import { DEFAULT_CONFIG } from '../shared/config-schema.js';
-import type { TranslateSelectionMsg } from '../shared/messages.js';
-import { isTrustedSender, isExtMessage } from '../shared/messages.js';
-import { routeCommand } from './command-router.js';
-import { showBadge, clearBadge } from './badge-notifier.js';
+import { getConfig, setConfig } from '../shared/config-store.ts';
+import { DEFAULT_CONFIG } from '../shared/config-schema.ts';
+import type { TranslateSelectionMsg } from '../shared/messages.ts';
+import { isTrustedSender, isExtMessage } from '../shared/messages.ts';
+import { routeCommand } from './command-router.ts';
+import { showBadge, clearBadge } from './badge-notifier.ts';
 
 chrome.runtime.onInstalled.addListener((details) => {
   void (async () => {

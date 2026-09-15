@@ -1,14 +1,14 @@
 // Diem lap rap cua content script. Chay o ISOLATED world, tren MOI frame.
 // Spike phase 01 da xac minh Translator co mat o day:
 //   reports/spike-01-translator-context-decision.md
-import { getConfig, onConfigChanged } from '../shared/config-store.js';
-import { DEFAULT_CONFIG, type AppConfig } from '../shared/config-schema.js';
-import { languageName } from '../shared/language-catalog.js';
-import { isTrustedSender, isTranslateSelection, type FrameAck } from '../shared/messages.js';
-import { installHotkeyListener } from './hotkey-listener.js';
-import { createRequestHandler } from './request-handler.js';
-import { createTooltipController } from './tooltip/tooltip-controller.js';
-import { createTranslateProvider } from '../engine/translate-provider.js';
+import { getConfig, onConfigChanged } from '../shared/config-store.ts';
+import { DEFAULT_CONFIG, type AppConfig } from '../shared/config-schema.ts';
+import { languageName } from '../shared/language-catalog.ts';
+import { isTrustedSender, isTranslateSelection, type FrameAck } from '../shared/messages.ts';
+import { installHotkeyListener } from './hotkey-listener.ts';
+import { createRequestHandler } from './request-handler.ts';
+import { createTooltipController } from './tooltip/tooltip-controller.ts';
+import { createTranslateProvider } from '../engine/translate-provider.ts';
 
 // Content script song theo vong doi trang -> giu state trong bien module la duoc
 // (khac service worker, von bi terminate bat cu luc nao).
@@ -28,6 +28,9 @@ const tooltip = createTooltipController(
   {
     onRetryWithPair: (source, target, sourceText) => {
       handler.retryLast(source, target, sourceText);
+    },
+    onHide: () => {
+      handler.cancel();
     },
     onOpenOptions: () => {
       // Content script khong tu mo tab duoc — phai nho service worker.
@@ -76,6 +79,9 @@ void (async () => {
   onConfigChanged((next) => {
     cfg = next;
   });
+  // Dong nay la buoc xac minh Route A cho phase 01/02 (xem
+  // reports/spike-01-translator-context-decision.md). Giu lai toi khi kiem tay xong,
+  // sau do go hoac dat sau mot co dev.
   const frame = window.top === window ? 'top' : 'iframe';
   console.log(`[HT] content script ready (${frame}) — Translator:`, typeof Translator);
 })();

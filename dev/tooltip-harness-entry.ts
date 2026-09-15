@@ -1,8 +1,8 @@
 // Entry rieng cho dev harness — dung THAT createTooltipController tu
 // src/content/tooltip, khong reimplement lai. Bien-doi hoa thanh
 // dev/tooltip-harness.bundle.js boi dev/build-harness.mjs.
-import { createTooltipController } from '../src/content/tooltip/tooltip-controller.js';
-import type { TooltipCallbacks, TooltipState } from '../src/shared/translate-contract.js';
+import { createTooltipController } from '../src/content/tooltip/tooltip-controller.ts';
+import type { TooltipCallbacks, TooltipState } from '../src/shared/translate-contract.ts';
 
 function log(msg: string): void {
   const out = document.getElementById('log');

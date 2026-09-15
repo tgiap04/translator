@@ -1,7 +1,7 @@
 // Hop nhat HAI duong vao (message tu service worker + keydown dong) ve mot cho.
-import type { TooltipController, TranslateProvider } from '../shared/translate-contract.js';
-import { readSelection } from './selection-reader.js';
-import { STRINGS } from './content-strings.js';
+import type { TooltipController, TranslateProvider } from '../shared/translate-contract.ts';
+import { readSelection } from './selection-reader.ts';
+import { STRINGS } from './content-strings.ts';
 
 export type RequestOrigin = 'command' | 'hotkey';
 
@@ -89,5 +89,11 @@ export function createRequestHandler(deps: HandlerDeps) {
     void run(sourceText, rect, source, target);
   }
 
-  return { handle, retryLast, strings: STRINGS };
+  /** Tooltip dong -> dung viec dich nen. Goi qua callback onHide. */
+  function cancel(): void {
+    inflight?.abort();
+    inflight = null;
+  }
+
+  return { handle, retryLast, cancel, strings: STRINGS };
 }

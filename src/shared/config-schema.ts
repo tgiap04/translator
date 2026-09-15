@@ -43,10 +43,20 @@ export function normalizeConfig(raw: unknown): AppConfig {
   if (!raw || typeof raw !== 'object') return structuredClone(DEFAULT_CONFIG);
   const o = raw as Partial<AppConfig>;
   const pairs = Array.isArray(o.pairs)
-    ? o.pairs.filter(
-        (p): p is LangPair =>
-          !!p && typeof p.id === 'string' && typeof p.s === 'string' && typeof p.t === 'string',
-      )
+    ? o.pairs
+        .filter(
+          (p): p is LangPair =>
+            !!p &&
+            typeof p.id === 'string' &&
+            typeof p.s === 'string' &&
+            typeof p.t === 'string' &&
+            // k phai la string hoac null: format(pair.k) o options page se hong
+            // neu lot mot object rac qua day.
+            (p.k === null || typeof p.k === 'string'),
+        )
+        // Tran cung o TANG DOC, khong chi o UI — ban cu hoac sync-conflict
+        // co the de lai nhieu hon MAX_PAIRS.
+        .slice(0, MAX_PAIRS)
     : structuredClone(DEFAULT_CONFIG.pairs);
   const max = typeof o.max === 'number' && o.max > 0 ? o.max : DEFAULT_CONFIG.max;
   return { v: 1, pairs, max };

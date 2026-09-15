@@ -5,9 +5,9 @@
 //
 // Con dao hai luoi: chi preventDefault SAU KHI da khop mot hotkey da cau hinh.
 // Khong khop thi im lang tuyet doi — cuop phim cua trang la loi te nhat lop nay gay ra.
-import type { AppConfig, LangPair } from '../shared/config-schema.js';
-import { fromEvent } from '../shared/hotkey-codec.js';
-import { shouldIgnore } from './input-guard.js';
+import type { AppConfig, LangPair } from '../shared/config-schema.ts';
+import { fromEvent } from '../shared/hotkey-codec.ts';
+import { shouldIgnore } from './input-guard.ts';
 
 export type HotkeyHit = (pair: LangPair) => void;
 

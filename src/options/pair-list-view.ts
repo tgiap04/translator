@@ -1,14 +1,14 @@
 // Render danh sach cap ngon ngu tu <template id="pair-row-template">.
-import type { AppConfig, LangPair } from '../shared/config-schema.js';
-import { format } from '../shared/hotkey-codec.js';
-import { languageName } from '../shared/language-catalog.js';
+import type { AppConfig, LangPair } from '../shared/config-schema.ts';
+import { format } from '../shared/hotkey-codec.ts';
+import { languageName } from '../shared/language-catalog.ts';
 import {
   checkAvailability,
   downloadErrorMessage,
   downloadPack,
   mapDownloadError,
-} from './pack-download-progress.js';
-import { S } from './options-strings.js';
+} from './pack-download-progress.ts';
+import { S } from './options-strings.ts';
 
 /** Cap co `c` (khoa vao lenh tinh) map sang ten lenh trong manifest.json. */
 const COMMAND_NAME_BY_SLOT: Record<1 | 2, string> = {

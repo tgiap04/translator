@@ -1,12 +1,12 @@
 // Lap rap options page — cua DUY NHAT duoc tai language pack: chi o day moi co user gesture
 // hop le. Xac minh thuc nghiem (phase 01): Translator.create() nem
 //   NotAllowedError: Requires a user gesture when availability is "downloadable".
-import { getConfig, setConfig, onConfigChanged } from '../shared/config-store.js';
-import type { AppConfig, LangPair } from '../shared/config-schema.js';
-import { renderPairList } from './pair-list-view.js';
-import { renderPairEditor } from './pair-editor-view.js';
-import type { CommandEntry } from './hotkey-conflict-validator.js';
-import { S } from './options-strings.js';
+import { getConfig, setConfig, onConfigChanged } from '../shared/config-store.ts';
+import type { AppConfig, LangPair } from '../shared/config-schema.ts';
+import { renderPairList } from './pair-list-view.ts';
+import { renderPairEditor } from './pair-editor-view.ts';
+import type { CommandEntry } from './hotkey-conflict-validator.ts';
+import { S } from './options-strings.ts';
 
 const SAVE_DEBOUNCE_MS = 400;
 

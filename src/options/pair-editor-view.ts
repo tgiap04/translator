@@ -1,10 +1,10 @@
 // Form them/sua mot cap ngon ngu dong (khong ap dung cho cap khoa vao chrome.commands).
-import { MAX_PAIRS, type AppConfig, type LangPair } from '../shared/config-schema.js';
-import { format, fromCommandShortcut, isForbidden, type HotkeyReject } from '../shared/hotkey-codec.js';
-import { LANGUAGES } from '../shared/language-catalog.js';
-import { check, type CommandEntry, type ConflictResult } from './hotkey-conflict-validator.js';
-import { HotkeyCaptureWidget } from './hotkey-capture-widget.js';
-import { S } from './options-strings.js';
+import { MAX_PAIRS, type AppConfig, type LangPair } from '../shared/config-schema.ts';
+import { format, fromCommandShortcut, isForbidden, type HotkeyReject } from '../shared/hotkey-codec.ts';
+import { LANGUAGES } from '../shared/language-catalog.ts';
+import { check, type CommandEntry, type ConflictResult } from './hotkey-conflict-validator.ts';
+import { HotkeyCaptureWidget } from './hotkey-capture-widget.ts';
+import { S } from './options-strings.ts';
 
 export type PairEditorCallbacks = {
   onSave(pair: LangPair): void;

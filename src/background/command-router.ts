@@ -1,6 +1,6 @@
 // Ham THUAN: quyet dinh lam gi voi mot command, khong gay tac dung phu.
 // Tach quyet dinh khoi tac dung phu -> test duoc khong can Chrome.
-import type { AppConfig } from '../shared/config-schema.js';
+import type { AppConfig } from '../shared/config-schema.ts';
 
 export type RouteDecision =
   | { action: 'options'; anchor?: string }

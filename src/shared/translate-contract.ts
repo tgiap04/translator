@@ -45,6 +45,8 @@ export type TooltipCallbacks = {
   /** User bam doi chieu / doi ngon ngu dich. sourceText giu trong state, KHONG doc lai Selection. */
   onRetryWithPair: (source: string, target: string, sourceText: string) => void;
   onOpenOptions: () => void;
+  /** Tooltip dong -> huy viec dich nen. Khong huy la tot tai nguyen cho ket qua khong ai xem. */
+  onHide?: () => void;
 };
 
 export interface TooltipController {

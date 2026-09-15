@@ -1,12 +1,12 @@
 // Vong doi + dismiss cua tooltip. sourceText giu trong state la nguon su that
 // cho retry — KHONG doc lai Selection (user bam nut la selection co the da mat).
 
-import type { TooltipCallbacks, TooltipController, TooltipState } from '../../shared/translate-contract.js';
-import { place } from './tooltip-position.js';
-import { createTooltipView, measureSize, setPosition } from './tooltip-view.js';
-import type { TooltipElements } from './tooltip-view.js';
-import { renderState } from './tooltip-render.js';
-import { STRINGS } from './tooltip-strings.js';
+import type { TooltipCallbacks, TooltipController, TooltipState } from '../../shared/translate-contract.ts';
+import { place } from './tooltip-position.ts';
+import { createTooltipView, measureSize, setPosition } from './tooltip-view.ts';
+import type { TooltipElements } from './tooltip-view.ts';
+import { renderState } from './tooltip-render.ts';
+import { STRINGS } from './tooltip-strings.ts';
 
 const MARGIN = 8;
 const SELECTIONCHANGE_DEBOUNCE_MS = 100;
@@ -167,6 +167,8 @@ export function createTooltipController(
   function hide(): void {
     if (!visible) return;
     visible = false;
+    // Huy viec dich nen: khong huy la tot tai nguyen cho ket qua khong ai xem.
+    callbacks.onHide?.();
     detachDismissListeners();
     els?.host.hidePopover();
   }

@@ -8,7 +8,7 @@
 // cua hotkey-codec.ts (CONTRACT dong bang) duoc TIEM VAO qua tham so `codec` thay vi import
 // truc tiep — tranh trung lap logic (DRY) ma van giu module nay test duoc thang.
 // Noi goi that (pair-editor-view.ts) duoc esbuild bundle nen khong gap gioi han nay.
-import type { AppConfig } from '../shared/config-schema.js';
+import type { AppConfig } from '../shared/config-schema.ts';
 
 export type ConflictCode = 'FORBIDDEN' | 'DUP_PAIR' | 'DUP_COMMAND';
 

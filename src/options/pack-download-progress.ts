@@ -1,6 +1,6 @@
 // Tai language pack qua Translator.create(). Boc trong click handler o lop goi (khong await
 // truoc do) de giu user activation that — Translator.create() nem NotAllowedError neu khong.
-import { S } from './options-strings.js';
+import { S } from './options-strings.ts';
 
 export type PackDownloadError =
   | 'NOT_SUPPORTED'

@@ -1,5 +1,5 @@
 // CONTRACT — dong bang sau phase 02. Boc chrome.storage.sync.
-import { STORAGE_KEY, DEFAULT_CONFIG, normalizeConfig, type AppConfig } from './config-schema.js';
+import { STORAGE_KEY, DEFAULT_CONFIG, normalizeConfig, type AppConfig } from './config-schema.ts';
 
 export async function getConfig(): Promise<AppConfig> {
   try {

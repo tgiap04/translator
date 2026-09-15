@@ -1,9 +1,9 @@
 // Render TooltipState vao DOM da dung san boi tooltip-view.ts.
 // Chi dung textContent — xem canh bao XSS o dau tooltip-view.ts.
 
-import type { TooltipState } from '../../shared/translate-contract.js';
-import { STRINGS } from './tooltip-strings.js';
-import type { TooltipElements } from './tooltip-view.js';
+import type { TooltipState } from '../../shared/translate-contract.ts';
+import { STRINGS } from './tooltip-strings.ts';
+import type { TooltipElements } from './tooltip-view.ts';
 
 const SOURCE_TRUNCATE_LEN = 120;
 

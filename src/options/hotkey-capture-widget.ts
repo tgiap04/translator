@@ -1,6 +1,6 @@
 // Widget bat to hop phim that: capture keydown tren window, preventDefault + stopPropagation
 // MOI phim khi dang o che do bat, de options page khong phan ung voi phim nguoi dung go.
-import { fromEvent, modifierCount, reject, type HotkeyReject } from '../shared/hotkey-codec.js';
+import { fromEvent, modifierCount, reject, type HotkeyReject } from '../shared/hotkey-codec.ts';
 
 export type HotkeyCaptureCallbacks = {
   /** To hop hop le theo reject() — widget thoat che do bat, lop goi tu validate xung dot tiep. */

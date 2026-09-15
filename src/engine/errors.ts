@@ -1,7 +1,7 @@
 // Ham THUAN — KHONG import runtime nao (chi import type, bi xoa luc chay).
 // Nho vay test duoc bang `node --test` khong can Chrome, khong can build.
 // classify() tra MO TA loi; translate-provider moi dung no thanh TranslateError.
-import type { TranslateErrorKind } from '../shared/translate-contract.js';
+import type { TranslateErrorKind } from '../shared/translate-contract.ts';
 
 export type ErrorDescriptor = {
   kind: TranslateErrorKind;

@@ -1,5 +1,5 @@
 // Badge dat THEO TAB de khong day sang tab khac.
-import { BADGE, BADGE_TTL_MS, STRINGS } from './background-strings.js';
+import { BADGE, BADGE_TTL_MS, STRINGS } from './background-strings.ts';
 
 type BadgeKind = keyof typeof BADGE;
 

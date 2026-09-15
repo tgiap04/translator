@@ -2,8 +2,8 @@
 // con dang lam song song. Thay bang ban that khi chung merge.
 import type {
   TooltipController, TooltipState, TranslateProvider,
-} from '../shared/translate-contract.js';
-import { TranslateError } from '../shared/translate-contract.js';
+} from '../shared/translate-contract.ts';
+import { TranslateError } from '../shared/translate-contract.ts';
 
 export function createNoopTooltip(): TooltipController {
   return {

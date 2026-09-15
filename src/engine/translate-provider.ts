@@ -3,18 +3,23 @@
 //
 // TUYET DOI khong goi mang. Khong fetch, khong fallback cloud, khong mo tab ngoai.
 // Day la rang buoc cung, khong phai muc tieu.
-import type { TranslateProvider } from '../shared/translate-contract.js';
-import { TranslateError } from '../shared/translate-contract.js';
-import { checkAvailability } from './availability.js';
-import { classify, fromAvailability, type ErrorDescriptor } from './errors.js';
-import { createSessionCache, type SessionLike } from './session-cache.js';
+import type { TranslateProvider } from '../shared/translate-contract.ts';
+import { TranslateError } from '../shared/translate-contract.ts';
+import { checkAvailability } from './availability.ts';
+import { classify, fromAvailability, type ErrorDescriptor } from './errors.ts';
+import { createSessionCache, type SessionLike } from './session-cache.ts';
 
 function toError(d: ErrorDescriptor): TranslateError {
   return new TranslateError(d.kind, d.message, d.action);
 }
 
-async function createSession(source: string, target: string): Promise<SessionLike> {
-  return Translator.create({ sourceLanguage: source, targetLanguage: target });
+async function createSession(
+  source: string,
+  target: string,
+  signal?: AbortSignal,
+): Promise<SessionLike> {
+  // Truyen signal de huy that su DUNG viec nen, khong chi dung viec hien thi.
+  return Translator.create({ sourceLanguage: source, targetLanguage: target, signal });
 }
 
 export function createTranslateProvider(): TranslateProvider {
@@ -34,10 +39,10 @@ export function createTranslateProvider(): TranslateProvider {
     let session: SessionLike;
     try {
       // Chi hoi availability khi chua co session. Co roi la da chac chan kha dung.
-      const state = await checkAvailability(source, target);
+      const state = await checkAvailability(source, target, signal);
       const problem = fromAvailability(state, source, target);
       if (problem) throw toError(problem);
-      session = await cache.get(source, target);
+      session = await cache.get(source, target, signal);
     } catch (err) {
       if (err instanceof TranslateError) throw err;
       throw toError(classify(err, 'create'));

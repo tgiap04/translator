@@ -12,7 +12,7 @@ export type SessionLike = {
   destroy(): void;
 };
 
-export type CreateFn = (source: string, target: string) => Promise<SessionLike>;
+export type CreateFn = (source: string, target: string, signal?: AbortSignal) => Promise<SessionLike>;
 
 export const MAX_SESSIONS = 3;
 
@@ -39,7 +39,7 @@ export function createSessionCache(create: CreateFn, max = MAX_SESSIONS) {
     }
   }
 
-  async function get(source: string, target: string): Promise<SessionLike> {
+  async function get(source: string, target: string, signal?: AbortSignal): Promise<SessionLike> {
     const key = keyOf(source, target);
 
     const hit = live.get(key);
@@ -52,7 +52,7 @@ export function createSessionCache(create: CreateFn, max = MAX_SESSIONS) {
     const inflight = pending.get(key);
     if (inflight) return inflight;
 
-    const p = create(source, target)
+    const p = create(source, target, signal)
       .then((session) => {
         live.set(key, session);
         evict();
