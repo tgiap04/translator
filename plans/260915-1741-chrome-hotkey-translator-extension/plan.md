@@ -37,7 +37,7 @@ Stack: TypeScript vanilla + esbuild (bước bundle tối thiểu). Không frame
 | 5 | [Content script input layer](./phase-05-content-script-input-layer.md) | ✅ Done |
 | 6 | [Tooltip Shadow DOM](./phase-06-tooltip-shadow-dom.md) | ✅ Done |
 | 7 | [Translation engine wiring](./phase-07-translation-engine-wiring.md) | ✅ Done |
-| 8 | [Integration and test matrix](./phase-08-integration-and-test-matrix.md) | Pending |
+| 8 | [Integration and test matrix](./phase-08-integration-and-test-matrix.md) | ⚠️ Tự động xanh — chờ kiểm tay |
 
 ## Dependencies
 
