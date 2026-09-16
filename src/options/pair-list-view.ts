@@ -1,6 +1,6 @@
 // Render danh sach cap ngon ngu tu <template id="pair-row-template">.
 import type { AppConfig, LangPair } from '../shared/config-schema.ts';
-import { format } from '../shared/hotkey-codec.ts';
+import { fromCommandShortcut, toChips } from '../shared/hotkey-codec.ts';
 import { languageName } from '../shared/language-catalog.ts';
 import {
   checkAvailability,
@@ -15,6 +15,31 @@ const COMMAND_NAME_BY_SLOT: Record<1 | 2, string> = {
   1: 'translate-vi-en',
   2: 'translate-en-vi',
 };
+
+/**
+ * Ve mot to hop phim thanh cac chip <kbd>. textContent, khong innerHTML.
+ * Dau vao la chuoi canonical ('Ctrl+Shift+KeyE').
+ */
+export function appendKbd(target: HTMLElement, canonical: string): void {
+  toChips(canonical).forEach((chip, i) => {
+    if (i > 0) {
+      const sep = document.createElement('span');
+      sep.className = 'hotkey-sep';
+      sep.textContent = '+';
+      target.appendChild(sep);
+    }
+    const k = document.createElement('kbd');
+    k.textContent = chip;
+    target.appendChild(k);
+  });
+}
+
+function appendPlain(target: HTMLElement, text: string, cls?: string): void {
+  const el = document.createElement('span');
+  if (cls) el.className = cls;
+  el.textContent = text;
+  target.appendChild(el);
+}
 
 export type PairListCallbacks = {
   onEdit(pair: LangPair): void;
@@ -55,22 +80,40 @@ function buildRow(
 
   label.textContent = `${languageName(pair.s)} → ${languageName(pair.t)}`;
 
+  // Nut icon chua <svg> san trong template -> KHONG dat textContent (se xoa mat icon).
+  editBtn.title = S.editButton;
+  editBtn.setAttribute('aria-label', S.editButton);
+  deleteBtn.title = S.deleteButton;
+  deleteBtn.setAttribute('aria-label', S.deleteButton);
+  hotkeyEl.textContent = '';
+
   if (pair.c) {
     // Cap gan slot lenh: hien CA phim co dinh cua Chrome LAN phim rieng (neu co).
     // Hai duong dinh tuyen doc lap nhau nen ca hai cung dung duoc.
     const cmd = commands.find((c) => c.name === COMMAND_NAME_BY_SLOT[pair.c as 1 | 2]);
-    const fixed = cmd?.shortcut || S.captureLocked;
-    const extra = pair.k ? S.extraHotkeyPrefix + format(pair.k) : S.extraHotkeyNone;
-    hotkeyEl.textContent = `${fixed} · ${extra}`;
+    // Chuan hoa qua CUNG mot bo dinh dang, neu khong se hien lan lon
+    // 'Alt+Shift+1' canh '^⇧E' — hai kieu ky hieu khac nhau tren cung mot hang.
+    const canonical = cmd?.shortcut ? fromCommandShortcut(cmd.shortcut) : null;
+    if (canonical) appendKbd(hotkeyEl, canonical);
+    else appendPlain(hotkeyEl, S.captureLocked, 'hotkey-none');
+    // Gan nhan: hai to hop khac nhau tren cung mot hang, khong nhan thi kho phan biet.
+    appendPlain(hotkeyEl, S.hotkeyTagFixed, 'hotkey-tag');
+
+    if (pair.k) {
+      appendKbd(hotkeyEl, pair.k);
+      appendPlain(hotkeyEl, S.hotkeyTagCustom, 'hotkey-tag');
+    } else {
+      appendPlain(hotkeyEl, S.extraHotkeyNone, 'hotkey-none');
+    }
+
     // Sua ĐUOC: doi ngon ngu, va gan them mot to hop rieng.
-    editBtn.textContent = S.editButton;
     editBtn.addEventListener('click', () => callbacks.onEdit(pair));
     // Xoa thi KHONG: xoa la bo slot lenh mo coi, khong tao lai duoc tu trong extension.
     deleteBtn.hidden = true;
   } else {
-    hotkeyEl.textContent = pair.k ? format(pair.k) : S.captureIdle;
-    editBtn.textContent = S.editButton;
-    deleteBtn.textContent = S.deleteButton;
+    if (pair.k) appendKbd(hotkeyEl, pair.k);
+    else appendPlain(hotkeyEl, S.captureIdle, 'hotkey-none');
+
     editBtn.addEventListener('click', () => callbacks.onEdit(pair));
     deleteBtn.addEventListener('click', () => {
       if (window.confirm(S.confirmDelete(`${pair.s} → ${pair.t}`))) callbacks.onDelete(pair.id);
@@ -80,7 +123,7 @@ function buildRow(
   downloadBtn.textContent = S.downloadButton;
   cancelBtn.textContent = S.cancelDownloadButton;
   badgeEl.textContent = S.badgeLoading;
-  void refreshBadge(pair, badgeEl);
+  void refreshBadge(pair, badgeEl, downloadBtn);
   wireDownload(pair, downloadBtn, cancelBtn, progressEl, badgeEl);
 
   return node;
@@ -103,7 +146,7 @@ function wireDownload(
     progressEl.value = 0;
 
     downloadPack(pair.s, pair.t, (pct) => { progressEl.value = pct; }, controller.signal)
-      .then(() => refreshBadge(pair, badgeEl))
+      .then(() => refreshBadge(pair, badgeEl, downloadBtn))
       .catch((err: unknown) => {
         badgeEl.textContent = downloadErrorMessage(mapDownloadError(err));
         badgeEl.className = 'pair-badge badge-error';
@@ -119,10 +162,16 @@ function wireDownload(
   cancelBtn.addEventListener('click', () => controller?.abort());
 }
 
-async function refreshBadge(pair: LangPair, badgeEl: HTMLElement): Promise<void> {
+async function refreshBadge(
+  pair: LangPair,
+  badgeEl: HTMLElement,
+  downloadBtn?: HTMLButtonElement,
+): Promise<void> {
   const availability = await checkAvailability(pair.s, pair.t);
   badgeEl.textContent = badgeLabel(availability);
   badgeEl.className = `pair-badge badge-${availability}`;
+  // Moi tai lai thu da co, hoac tai thu Chrome khong ho tro, deu la gay roi.
+  if (downloadBtn) downloadBtn.hidden = availability === 'available' || availability === 'unavailable';
 }
 
 function badgeLabel(a: TranslatorAvailabilityValue): string {

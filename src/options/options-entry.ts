@@ -3,7 +3,8 @@
 //   NotAllowedError: Requires a user gesture when availability is "downloadable".
 import { getConfig, setConfig, onConfigChanged } from '../shared/config-store.ts';
 import type { AppConfig, LangPair } from '../shared/config-schema.ts';
-import { renderPairList } from './pair-list-view.ts';
+import { renderPairList, appendKbd } from './pair-list-view.ts';
+import { fromCommandShortcut } from '../shared/hotkey-codec.ts';
 import { renderPairEditor } from './pair-editor-view.ts';
 import type { CommandEntry } from './hotkey-conflict-validator.ts';
 import { S } from './options-strings.ts';
@@ -37,21 +38,17 @@ function setStaticStrings(): void {
   el<HTMLElement>('commands-col-name').textContent = S.commandsColName;
   el<HTMLElement>('commands-col-shortcut').textContent = S.commandsColShortcut;
 
-  const intro = el<HTMLElement>('commands-intro');
-  intro.textContent = S.commandsIntroBefore;
+  el<HTMLElement>('commands-intro').textContent = S.commandsIntroBefore;
 
   // Chrome CHAN dieu huong toi chrome:// bang click link — the <a href> im lang
   // khong lam gi. Phai di qua chrome.tabs.create.
-  const openBtn = document.createElement('button');
-  openBtn.type = 'button';
-  openBtn.id = 'open-shortcuts-btn';
+  const openBtn = el<HTMLButtonElement>('open-shortcuts-btn');
   openBtn.textContent = S.commandsOpenShortcutsButton;
   openBtn.addEventListener('click', () => {
     chrome.tabs.create({ url: 'chrome://extensions/shortcuts' }, () => {
       if (chrome.runtime.lastError) openBtn.textContent = S.commandsOpenFailed;
     });
   });
-  intro.insertAdjacentElement('afterend', openBtn);
 }
 
 function renderCommandsTable(): void {
@@ -62,7 +59,11 @@ function renderCommandsTable(): void {
     const nameTd = document.createElement('td');
     nameTd.textContent = cmd.description || cmd.name || '';
     const shortcutTd = document.createElement('td');
-    shortcutTd.textContent = cmd.shortcut || S.commandsUnset;
+    // Cung bo dinh dang voi hang cap ngon ngu, neu khong se hien lan lon
+    // 'Alt+Shift+1' o bang nay canh '⌥⇧1' o bang tren.
+    const canonical = cmd.shortcut ? fromCommandShortcut(cmd.shortcut) : null;
+    if (canonical) appendKbd(shortcutTd, canonical);
+    else shortcutTd.textContent = S.commandsUnset;
     tr.append(nameTd, shortcutTd);
     tbody.appendChild(tr);
   }

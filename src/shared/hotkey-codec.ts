@@ -114,6 +114,23 @@ export function format(canonical: string): string {
 }
 
 /**
+ * Tach to hop thanh cac manh de ve chip <kbd> rieng.
+ * Dung CHUNG bo ky hieu voi format() — khong nhan doi bang map.
+ * 'Ctrl+Shift+KeyE' -> mac: ['\u2303','\u21E7','E'] | win: ['Ctrl','Shift','E']
+ */
+export function toChips(canonical: string): string[] {
+  const p = parse(canonical);
+  if (!p) return [canonical];
+  const sym: Record<string, string> = IS_MAC
+    ? { Ctrl: '\u2303', Alt: '\u2325', Shift: '\u21E7', Meta: '\u2318' }
+    : { Ctrl: 'Ctrl', Alt: 'Alt', Shift: 'Shift', Meta: 'Win' };
+  let key = CODE_LABEL[p.code] ?? p.code;
+  if (key.startsWith('Key')) key = key.slice(3);
+  else if (key.startsWith('Digit')) key = key.slice(5);
+  return [...p.mods.map((m) => sym[m] ?? m), key];
+}
+
+/**
  * Chuan hoa chuoi cua chrome.commands.getAll() ('Alt+Shift+1') ve canonical ('Alt+Shift+Digit1').
  * Bat buoc truoc khi so sanh voi hotkey dong — neu khong se bo sot xung dot.
  */
