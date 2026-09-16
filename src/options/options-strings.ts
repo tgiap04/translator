@@ -28,6 +28,11 @@ export const S = {
   captureIdle: 'Bấm để ghi tổ hợp phím',
   captureListening: 'Đang chờ bạn bấm phím… (Esc để huỷ)',
   captureLocked: 'Đặt tại chrome://extensions/shortcuts',
+  extraHotkeyNone: 'chưa có phím riêng',
+  extraHotkeyPrefix: 'phím riêng: ',
+  editorLockedNote:
+    'Cặp này gắn với một phím cố định của Chrome. Phím đó đổi ở trang đổi phím của Chrome, '
+    + 'nhưng bạn có thể gán thêm một tổ hợp riêng ở đây — cả hai đều dùng được.',
 
   errNoModifier: 'Cần ít nhất một phím Ctrl/Alt/Shift/Meta — gõ chữ trần sẽ đụng ngay.',
   errShiftOnly: 'Chỉ Shift vẫn là gõ chữ hoa, chọn tổ hợp khác.',
@@ -52,8 +57,11 @@ export const S = {
   errPackUnknown: 'Lỗi không xác định khi tải gói ngôn ngữ.',
 
   commandsHeading: 'Phím tắt cố định',
-  commandsIntroBefore: 'Chrome không cho phần mở rộng tự đổi tổ hợp phím cố định. Đổi tại ',
-  commandsIntroLinkText: 'chrome://extensions/shortcuts',
+  commandsIntroBefore:
+    'Ba tổ hợp phím cố định dưới đây do Chrome quản lý — phần mở rộng không được phép tự đổi. '
+    + 'Bấm nút bên dưới để mở trang đổi phím của Chrome.',
+  commandsOpenShortcutsButton: 'Mở trang đổi phím của Chrome',
+  commandsOpenFailed: 'Không mở được. Hãy tự dán vào thanh địa chỉ: chrome://extensions/shortcuts',
   commandsColName: 'Lệnh',
   commandsColShortcut: 'Tổ hợp phím',
   commandsUnset: 'Chưa gán',

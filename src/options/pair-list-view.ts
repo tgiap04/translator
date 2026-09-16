@@ -56,9 +56,16 @@ function buildRow(
   label.textContent = `${languageName(pair.s)} → ${languageName(pair.t)}`;
 
   if (pair.c) {
+    // Cap gan slot lenh: hien CA phim co dinh cua Chrome LAN phim rieng (neu co).
+    // Hai duong dinh tuyen doc lap nhau nen ca hai cung dung duoc.
     const cmd = commands.find((c) => c.name === COMMAND_NAME_BY_SLOT[pair.c as 1 | 2]);
-    hotkeyEl.textContent = cmd?.shortcut || S.captureLocked;
-    editBtn.hidden = true;
+    const fixed = cmd?.shortcut || S.captureLocked;
+    const extra = pair.k ? S.extraHotkeyPrefix + format(pair.k) : S.extraHotkeyNone;
+    hotkeyEl.textContent = `${fixed} · ${extra}`;
+    // Sua ĐUOC: doi ngon ngu, va gan them mot to hop rieng.
+    editBtn.textContent = S.editButton;
+    editBtn.addEventListener('click', () => callbacks.onEdit(pair));
+    // Xoa thi KHONG: xoa la bo slot lenh mo coi, khong tao lai duoc tu trong extension.
     deleteBtn.hidden = true;
   } else {
     hotkeyEl.textContent = pair.k ? format(pair.k) : S.captureIdle;

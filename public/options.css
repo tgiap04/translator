@@ -90,3 +90,17 @@ h2 { font-size: 16px; margin: 24px 0 8px; }
 }
 
 #add-pair-btn { margin-top: 4px; }
+
+/* Ghi chu trong form khi sua cap gan slot lenh */
+.editor-note {
+  margin: 0 0 12px;
+  padding: 8px 10px;
+  border-left: 3px solid #d68910;
+  background: rgba(214, 137, 16, 0.08);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+#open-shortcuts-btn {
+  margin: 8px 0 16px;
+}

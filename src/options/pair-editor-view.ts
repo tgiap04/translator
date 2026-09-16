@@ -103,18 +103,38 @@ export function renderPairEditor(
       errorEl.textContent = S.pairSameLanguageError;
       return;
     }
-    if (!currentHotkey) {
+    // Cap gan slot lenh da co phim co dinh -> phim rieng la TUY CHON.
+    // Cap dong thi bat buoc phai co, neu khong se khong co cach nao kich hoat.
+    const boundToCommand = editing?.c !== undefined;
+    if (!currentHotkey && !boundToCommand) {
       errorEl.textContent = S.errNoModifier;
       return;
     }
-    const finalCheck = check(currentHotkey, config, editing?.id ?? null, commands, CODEC);
-    if (!finalCheck.ok) {
-      errorEl.textContent = conflictMessage(finalCheck);
-      return;
+    if (currentHotkey) {
+      const finalCheck = check(currentHotkey, config, editing?.id ?? null, commands, CODEC);
+      if (!finalCheck.ok) {
+        errorEl.textContent = conflictMessage(finalCheck);
+        return;
+      }
     }
     widget.stop();
-    callbacks.onSave({ id: editing?.id ?? crypto.randomUUID().slice(0, 6), s, t, k: currentHotkey });
+    const saved: LangPair = {
+      id: editing?.id ?? crypto.randomUUID().slice(0, 6),
+      s,
+      t,
+      k: currentHotkey,
+    };
+    // GIU slot lenh. Lam roi truong nay la Alt+Shift+1/2 thanh vo tac dung.
+    if (editing?.c !== undefined) saved.c = editing.c;
+    callbacks.onSave(saved);
   });
+
+  if (editing?.c !== undefined) {
+    const note = document.createElement('p');
+    note.className = 'editor-note';
+    note.textContent = S.editorLockedNote;
+    form.appendChild(note);
+  }
 
   appendLabeled(form, S.pairSourceLabel, sourceSelect);
   appendLabeled(form, S.pairTargetLabel, targetSelect);

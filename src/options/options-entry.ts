@@ -39,12 +39,19 @@ function setStaticStrings(): void {
 
   const intro = el<HTMLElement>('commands-intro');
   intro.textContent = S.commandsIntroBefore;
-  const link = document.createElement('a');
-  link.href = 'chrome://extensions/shortcuts';
-  link.target = '_blank';
-  link.rel = 'noopener';
-  link.textContent = S.commandsIntroLinkText;
-  intro.appendChild(link);
+
+  // Chrome CHAN dieu huong toi chrome:// bang click link — the <a href> im lang
+  // khong lam gi. Phai di qua chrome.tabs.create.
+  const openBtn = document.createElement('button');
+  openBtn.type = 'button';
+  openBtn.id = 'open-shortcuts-btn';
+  openBtn.textContent = S.commandsOpenShortcutsButton;
+  openBtn.addEventListener('click', () => {
+    chrome.tabs.create({ url: 'chrome://extensions/shortcuts' }, () => {
+      if (chrome.runtime.lastError) openBtn.textContent = S.commandsOpenFailed;
+    });
+  });
+  intro.insertAdjacentElement('afterend', openBtn);
 }
 
 function renderCommandsTable(): void {
