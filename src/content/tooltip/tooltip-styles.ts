@@ -2,10 +2,22 @@
 // :host { all: initial } BAT BUOC dau tien: Shadow DOM chan CSS selector cua
 // trang nhung KHONG chan thuoc tinh ke thua (font-size, color, line-height,
 // direction, visibility van chay qua shadow boundary). all:initial cat dut.
+//
+// CAI GIA CUA all:initial: no ghi de LUON luat cua trinh duyet
+//   [popover]:not(:popover-open) { display: none }
+// -> hidePopover() dong popover ve mat logic nhung no VAN HIEN tren man hinh.
+// Phai tu tra lai luat do, neu khong tooltip khong bao gio tat duoc.
 
 export const TOOLTIP_STYLES = `
 :host {
   all: initial;
+  /* all:initial dat color-scheme ve normal -> scrollbar va form control trong
+     tooltip khong theo theme. Khai lai de chung theo trinh duyet. */
+  color-scheme: light dark;
+}
+
+:host(:not(:popover-open)) {
+  display: none !important;
 }
 
 * {
@@ -14,7 +26,7 @@ export const TOOLTIP_STYLES = `
 
 .card {
   --bg: #ffffff;
-  --fg: #1a1a1a;
+  --fg: #374151;
   --border: #e2e2e6;
   --muted: #6b7280;
   --accent: #2563eb;
