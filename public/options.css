@@ -78,15 +78,12 @@ body {
 .masthead { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
 
 .mark {
-  display: grid;
-  place-items: center;
   width: 42px; height: 42px;
   flex: none;
-  border-radius: 11px;
-  background: var(--accent);
-  color: var(--accent-fg);
+  border-radius: 10px;
+  /* Dung chinh icon cua extension — mot nguon duy nhat cho nhan dien. */
+  box-shadow: 0 1px 3px rgba(15, 23, 42, .18);
 }
-.mark svg { width: 24px; height: 24px; }
 
 .masthead-text h1 { margin: 0; font-size: 19px; font-weight: 650; letter-spacing: -.01em; }
 .subtitle { margin: 2px 0 0; color: var(--fg-muted); font-size: 13px; }

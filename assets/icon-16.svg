@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#5b96f8"/>
+      <stop offset="1" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="27" fill="url(#g)"/>
+  <!-- 16px: mot glyph duy nhat, net day, khong chi tiet nao song sot o co do -->
+  <text x="64" y="97" text-anchor="middle" fill="#ffffff"
+        font-family="Hiragino Sans, PingFang SC, Noto Sans CJK SC, sans-serif"
+        font-size="96" font-weight="600">文</text>
+</svg>

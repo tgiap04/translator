@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#5b96f8"/>
+      <stop offset="1" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="29" fill="url(#g)"/>
+  <!-- 文 va A: dung glyph that tu font he thong, khong ve tay -->
+  <text x="40" y="62" text-anchor="middle" fill="#ffffff" fill-opacity=".97"
+        font-family="Hiragino Sans, PingFang SC, Noto Sans CJK SC, sans-serif"
+        font-size="56" font-weight="600">文</text>
+  <text x="86" y="104" text-anchor="middle" fill="#ffffff"
+        font-family="SF Pro Display, Helvetica Neue, system-ui, sans-serif"
+        font-size="62" font-weight="700">A</text>
+  <!-- mui ten hai chieu: dau hieu dich -->
+  <g stroke="#ffffff" stroke-opacity=".9" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M22 84h26"/><path d="M41 77l7 7-7 7"/>
+  </g>
+</svg>
